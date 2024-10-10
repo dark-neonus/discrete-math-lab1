@@ -21,7 +21,24 @@ def read_matrix(file_name: str) -> tuple[list[list[int]], int]:
         
         return (result, n)
 
+def save_matrix(file_name: str, matrix: list[list[int]]) -> None:
+    """Saves matrix to file with given name
 
+    Args:
+        file_name (str): name of the file where to save matrix.
+        matrix (list[list[int]]): matrix that should be saved.
+    """
+
+    with open(file_name, "w") as file:
+        text = ''
+        for line in matrix:
+            row = ''
+            for el in line:
+                row += str(el)
+            text += row + '\n'
+        file.write(text[:-1])
+    
 matrix, n = read_matrix("example.csv")
-for line in matrix:
-    print(line)
+# for line in matrix:
+#     print(line)
+save_matrix('meow.csv', matrix)
