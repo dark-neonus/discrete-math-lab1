@@ -37,8 +37,4 @@ def save_matrix(file_name: str, matrix: list[list[int]]) -> None:
                 row += str(el)
             text += row + '\n'
         file.write(text[:-1])
-    
-matrix, n = read_matrix("example.csv")
-# for line in matrix:
-#     print(line)
-save_matrix('meow.csv', matrix)
+
