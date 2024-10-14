@@ -122,6 +122,17 @@ def matrix_transitive_closure(matrix: list[list[int]]) -> list[list[int]]:
 
     return current_matrix
 
+def is_relation_transitive(matrix: list[list[int]]) -> bool:
+    """ Check if matrix is transitive or not
+
+    Args:
+        matrix (list[list[int]]): matrix tp check
+
+    Returns:
+        bool: True if matrix is transitive, False otherwise
+    """
+    return matrix == matrix_transitive_closure(matrix)
+
 if __name__ == "__main__":
     import doctest
     print(doctest.testmod())
