@@ -1,5 +1,6 @@
 """ Module to work with relations and their matrixes """
 from copy import deepcopy
+import itertools
 
 def read_matrix(file_name: str) -> tuple[list[list[int]], int]:
     """Read matrix from file and return it with its dimension.
@@ -134,22 +135,17 @@ def is_relation_transitive(matrix: list[list[int]]) -> bool:
     return matrix == matrix_transitive_closure(matrix)
 
 def relation_symmetrical_closure(matrix: list[list[int]]) -> list[list[int]]:
-    """_summary_
+    """ Return matrix of symmetrical closure of given relation 
 
     Args:
-        matrix (list[list[int]]): _description_
+        matrix (list[list[int]]): source matrix
 
     Returns:
-        list[list[int]]: _description_
+        list[list[int]]: matrix of symmetrical closure
     >>> relation_symmetrical_closure([[1, 0, 0, 1], [0, 1, 0, 1],[1, 1, 0, 1], [0, 0, 0, 0]])
     [[1, 0, 1, 1], [0, 1, 1, 1], [1, 1, 0, 1], [1, 1, 1, 0]]
 
     """
-   
-    
-  
-    
-    
     for y, row in enumerate(matrix):
         for x, el in enumerate(row):
             if el == 1 and matrix[x][y] != 1:
@@ -158,14 +154,14 @@ def relation_symmetrical_closure(matrix: list[list[int]]) -> list[list[int]]:
     return matrix
 
 
-def relation_reflective_closure(matrix: list[list[int]]) -> list[list[int]]: 
-    """_summary_
+def relation_reflective_closure(matrix: list[list[int]]) -> list[list[int]]:
+    """ Return matrix of reflective closure of given matrix
 
     Args:
-        matrix (list[list[int]]): _description_
+        matrix (list[list[int]]): source matrix
 
     Returns:
-        list[list[int]]: _description_
+        list[list[int]]: reflective closure matrix
     >>> relation_symmetrical_closure([[0, 1, 0, 1], [1, 0, 1, 0], [0, 0, 1, 0], [1, 0, 0, 0]])
     [[0, 1, 0, 1], [1, 0, 1, 0], [0, 1, 1, 0], [1, 0, 0, 0]]
     """
@@ -176,8 +172,33 @@ def relation_reflective_closure(matrix: list[list[int]]) -> list[list[int]]:
 
     return matrix
 
+def calcualte_transitive_relations(element_source: list[object]) -> int:
+    """Calculate number of transitive relations that can be formed
+    with given set of elements.
+
+    Args:
+        element_source (list[object]): set of elements of relation
+
+    Returns:
+        int: number of transitive relations
+
+    Examples:    
+    # Go through 65536 4x4 matrix variants and find transitive
+    >>> calcualte_transitive_relations([1, 2, 3, 4])
+    3072
+    """
+    transitive_count = 0
+
+    source_size = len(element_source)
+
+    all_matrices = itertools.product([0, 1], repeat=source_size**2)
+
+    for matrix in all_matrices:
+        formated_matrix = [list(matrix[i:i+source_size]) for i in range(source_size)]
+        transitive_count += is_relation_transitive(formated_matrix)
+
+    return transitive_count
 
 if __name__ == "__main__":
     import doctest
     print(doctest.testmod())
-
