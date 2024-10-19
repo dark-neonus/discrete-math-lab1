@@ -172,6 +172,31 @@ def relation_reflective_closure(matrix: list[list[int]]) -> list[list[int]]:
 
     return matrix
 
+def equivalence_classes(relation: list[list[int]]) -> list[list]:
+    """find classes of the equivalence
+
+    Args:
+        relation (list[tuple[int]]): reletion where the classes shoud be finded
+
+    Returns:
+        list[list]: list of the fined classes of the equivalence
+
+    >>> equivalence_classes([[1, 1], [1, 2], [1, 4], [2, 1], [2, 2],\
+    [2, 4], [3, 3], [4, 1], [4, 2], [4, 4]])
+    [[1, 2, 4], [3]]
+    """
+    first_el = set()
+    result = []
+    for el in relation:
+        first_el.add(el[0])
+    for i in first_el:
+        inventory = []
+        for el in relation:
+            if i == el[0]:
+                inventory.append(el[1])
+        if inventory not in result:
+            result.append(inventory)
+    return result
 def calcualte_transitive_relations(element_source: list[object]) -> int:
     """Calculate number of transitive relations that can be formed
     with given set of elements.

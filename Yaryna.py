@@ -60,9 +60,8 @@ def equivalence_classes(relation: list[list[int]]) -> list[list]:
                 inventory.append(el[1])
         if inventory not in result:
             result.append(inventory)
-        return result
+    return result
 
 if __name__ =="__main__":
     import doctest
     print(doctest.testmod())
-    
