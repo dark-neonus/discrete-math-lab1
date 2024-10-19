@@ -199,6 +199,8 @@ def calcualte_transitive_relations(element_source: list[object]) -> int:
 
     return transitive_count
 
+
+
 if __name__ == "__main__":
     import doctest
     print(doctest.testmod())
