@@ -62,6 +62,7 @@ def equivalence_classes(relation: list[list[int]]) -> list[list]:
             result.append(inventory)
     return result
 
+    
 if __name__ =="__main__":
     import doctest
     print(doctest.testmod())
