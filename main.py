@@ -119,7 +119,7 @@ def matrix_transitive_closure(matrix: list[list[int]]) -> list[list[int]]:
                 continue
 
             for x, el_ in enumerate(row):
-                current_matrix[y][x] = el_ or (old_matrix[y][i] and old_matrix[i][x])
+                current_matrix[y][x] = el_ or old_matrix[i][x]
 
     return current_matrix
 
@@ -131,6 +131,9 @@ def is_relation_transitive(matrix: list[list[int]]) -> bool:
 
     Returns:
         bool: True if matrix is transitive, False otherwise
+
+    >>> is_relation_transitive([[1, 1, 0, 1], [1, 1, 0, 1], [0, 0, 1, 0], [1, 1, 0, 1]])
+    True
     """
     return matrix == matrix_transitive_closure(matrix)
 
@@ -146,6 +149,7 @@ def relation_symmetrical_closure(matrix: list[list[int]]) -> list[list[int]]:
     [[1, 0, 1, 1], [0, 1, 1, 1], [1, 1, 0, 1], [1, 1, 1, 0]]
 
     """
+    matrix = deepcopy(matrix)
     for y, row in enumerate(matrix):
         for x, el in enumerate(row):
             if el == 1 and matrix[x][y] != 1:
@@ -165,6 +169,7 @@ def relation_reflective_closure(matrix: list[list[int]]) -> list[list[int]]:
     >>> relation_symmetrical_closure([[0, 1, 0, 1], [1, 0, 1, 0], [0, 0, 1, 0], [1, 0, 0, 0]])
     [[0, 1, 0, 1], [1, 0, 1, 0], [0, 1, 1, 0], [1, 0, 0, 0]]
     """
+    matrix = deepcopy(matrix)
     n = len(matrix)
     for y in range(n):
         if matrix[y][y] != 1:
@@ -176,7 +181,7 @@ def equivalence_classes(relation: list[list[int]]) -> list[list]:
     """find classes of the equivalence
 
     Args:
-        relation (list[tuple[int]]): reletion where the classes shoud be finded
+        relation (list[tuple[int]]): relation where the classes shoud be finded
 
     Returns:
         list[list]: list of the fined classes of the equivalence
@@ -197,6 +202,7 @@ def equivalence_classes(relation: list[list[int]]) -> list[list]:
         if inventory not in result:
             result.append(inventory)
     return result
+
 def calcualte_transitive_relations(element_source: list[object]) -> int:
     """Calculate number of transitive relations that can be formed
     with given set of elements.
