@@ -1,6 +1,4 @@
 import main
 
-matrix, n = main.read_matrix("example.csv")
-# for line in matrix:
-#     print(line)
-main.save_matrix('meow.csv', matrix)
+for i in range(1, 6):
+    print(i, main.calcualte_transitive_relations(list(range(i))))
