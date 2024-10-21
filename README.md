@@ -1,5 +1,5 @@
 # Repo for sharing code for lab1 on discrete math
-```meowton
-meow
-```
-meow
+
+To check all functionalaty check 'main.py'
+
+To run test script run 'run.py'
