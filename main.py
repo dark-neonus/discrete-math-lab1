@@ -11,6 +11,13 @@ def read_matrix(file_name: str) -> tuple[list[list[int]], int]:
     Returns:
         tuple[list[list[int]], int]: tuple of matrix of integer
             from file with given name and dimension of matrix.
+
+    Example:
+    >>> import tempfile
+    >>> with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmpfile:
+    ...     _ = tmpfile.write("011\\n101\\n001\\n")
+    >>> read_matrix(tmpfile.name)
+    ([[0, 1, 1], [1, 0, 1], [0, 0, 1]], 3)
     """
     with open(file_name, 'r', encoding="utf-8") as file:
         lines = file.readlines()
@@ -18,9 +25,7 @@ def read_matrix(file_name: str) -> tuple[list[list[int]], int]:
         result = []
 
         for line in lines:
-            result.append([])
-            for x in range(n):
-                result[-1].append(int(line[x]))
+            result.append([int(x) for x in line.strip()])
         return (result, n)
 
 def save_matrix(file_name: str, matrix: list[list[int]]) -> None:
@@ -29,6 +34,16 @@ def save_matrix(file_name: str, matrix: list[list[int]]) -> None:
     Args:
         file_name (str): name of the file where to save matrix.
         matrix (list[list[int]]): matrix that should be saved.
+    
+    Example:
+    >>> import tempfile
+    >>> save_matrix('tmp.txt', [[0, 1, 1], [1, 0, 1], [0, 0, 1]])
+    >>> with open('tmp.txt', 'r', encoding='utf-8') as file:
+    ...     for line in file:    
+    ...         print(line.strip().split())
+    ['011']
+    ['101']
+    ['001']
     """
 
     with open(file_name, "w", encoding="utf-8") as file:
@@ -93,7 +108,25 @@ def matrix_transitive_closure(matrix: list[list[int]]) -> list[list[int]]:
     """ Return transitive matrix closure,
     use Warshall’s algorithm to find one
 
-    Args:
+    Args:matrix_size = len(matrix)
+
+    current_matrix = deepcopy(matrix)
+    old_matrix = []
+
+    # Dont automatically copy i'th row.
+    # This case is being handle by normal row processing.
+    for i in range(matrix_size):
+        old_matrix = deepcopy(current_matrix)
+        for y, row in enumerate(old_matrix):
+            # if i'th element of row is 0, copy it to current_matrix
+            if row[i] == 0:
+                # This row has already been copied in deepcopy()
+                continue
+
+            for x, el_ in enumerate(row):
+                current_matrix[y][x] = el_ or old_matrix[i][x]
+
+    return current_matrix
         matrix (list[list[int]]): original matrix
 
     Returns:
@@ -216,7 +249,7 @@ def calcualte_transitive_relations(element_source: list[object]) -> int:
     Examples:    
     # Go through 65536 4x4 matrix variants and find transitive
     >>> calcualte_transitive_relations([1, 2, 3, 4])
-    3072
+    3994
     """
     transitive_count = 0
 
@@ -224,8 +257,9 @@ def calcualte_transitive_relations(element_source: list[object]) -> int:
 
     all_matrices = itertools.product([0, 1], repeat=source_size**2)
 
-    for matrix in all_matrices:
-        formated_matrix = [list(matrix[i:i+source_size]) for i in range(source_size)]
+    for matrix_in_list in all_matrices:
+        formated_matrix = [list(matrix_in_list[i*source_size:(i+1)*source_size])
+                           for i in range(source_size)]
         transitive_count += is_relation_transitive(formated_matrix)
 
     return transitive_count
